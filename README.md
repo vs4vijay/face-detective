@@ -1,4 +1,4 @@
-# face-detective
+# FaceDetective
 A Face Detection &amp; Recognization Program based on Python &amp; OpenCV
 
 
@@ -8,3 +8,14 @@ A Face Detection &amp; Recognization Program based on Python &amp; OpenCV
 
 ## Running
 `python3 main.py`
+
+
+
+
+
+#######################################
+
+## Rough Work Below
+
+face_cascade = cv.CascadeClassifier('haarcascade_frontalface_default.xml')
+eye_cascade = cv.CascadeClassifier('haarcascade_eye.xml')
