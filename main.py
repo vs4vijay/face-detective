@@ -29,8 +29,15 @@ def open_camera(cap):
 
     # cv2.waitKey(1) == 27
     # cv.waitKey(0)
-    if (cv2.waitKey(1) & 0xFF == ord('q')) or (cv2.waitKey(1) & 0xFF == 27):
-          break
+
+    key = cv2.waitKey(1)
+    if key == 27 or key == ord('q'):
+      break
+    elif key == ord('s'):
+      cv2.imwrite('image-saved.png', processed_frame)
+
+    # if ( & 0xFF == ord('q')) or (cv2.waitKey(1) & 0xFF == 27):
+    #       break
 
 def process_frame(image_frame):
   gray_frame = cv2.cvtColor(image_frame, cv2.COLOR_BGR2GRAY)
