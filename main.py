@@ -8,12 +8,9 @@ config = {
   'name': 'Face Detective'
 }
 
-
 # haar_cascade_face = cv2.CascadeClassifier('data/haarcascade_frontalface_default.xml')
 face_haar_cascade = cv2.CascadeClassifier(f'{cv2.data.haarcascades}/haarcascade_frontalface_default.xml')
 eye_haar_cascade = cv2.CascadeClassifier(f'{cv2.data.haarcascades}/haarcascade_eye.xml')
-
-
 
 cap = cv2.VideoCapture(0)
 
@@ -38,27 +35,31 @@ def open_camera(cap):
       cv2.imwrite('temp/image-saved.png', processed_frame)
 
 def process_frame(image_frame):
-  gray_frame = cv2.cvtColor(image_frame, cv2.COLOR_BGR2GRAY)
 
-  final_frame = cv2.flip(gray_frame, 1)
+  image_frame = cv2.flip(image_frame, 1)
 
-  detect_faces(final_frame, face_haar_cascade, eye_haar_cascade)
+  detect_faces(image_frame, face_haar_cascade, eye_haar_cascade)
 
-  return final_frame
+  return image_frame
 
 
 def detect_faces(image_frame, classifier, next_classifier = None):
-  detected_objs = classifier.detectMultiScale(image_frame, scaleFactor = 1.3, minNeighbors = 5)
+
+  gray_frame = cv2.cvtColor(image_frame, cv2.COLOR_BGR2GRAY)
+
+  detected_objs = classifier.detectMultiScale(gray_frame, scaleFactor = 1.3, minNeighbors = 5)
   for (x, y, w, h) in detected_objs:
     color = (0, 255, 0)
     cv2.rectangle(image_frame, (x, y), (x+w, y+h), color, 5)
 
     if next_classifier:
-      next_frame = image_frame[y:y+h, x:x+w]
-      nested_objs = next_classifier.detectMultiScale(next_frame)
+      child_frame = image_frame[y:y+h, x:x+w]
+      child_gray_frame = gray_frame[y:y+h, x:x+w]
+
+      nested_objs = next_classifier.detectMultiScale(child_gray_frame)
       for (_x, _y, _w, _h) in nested_objs:
         color = (0, 0, 255)
-        cv2.rectangle(next_frame, (_x, _y), (_x+_w, _y+_h), color, 2)
+        cv2.rectangle(child_frame, (_x, _y), (_x+_w, _y+_h), color, 2)
   return image_frame
 
 
