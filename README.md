@@ -15,7 +15,11 @@ A Face Detection &amp; Recognization Program based on Python &amp; OpenCV
 
 #######################################
 
-## Rough Work Below
+### Rough Work Below
 
 face_cascade = cv.CascadeClassifier('haarcascade_frontalface_default.xml')
 eye_cascade = cv.CascadeClassifier('haarcascade_eye.xml')
+
+
+
+for path, subdirnames, filenames in os.walk("trainingImages")
